@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.7.RELEASE")
     }
 }
 
@@ -19,12 +19,20 @@ bootJar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+configurations {
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    providedRuntime
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-jetty') {
+        exclude module: 'jetty-jndi'
+    }
     compile("org.webjars:webjars-locator-core")
     compile("org.webjars:sockjs-client:1.0.2")
     compile("org.webjars:stomp-websocket:2.3.3")
